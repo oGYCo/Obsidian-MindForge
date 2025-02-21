@@ -1,0 +1,11 @@
+{
+  "id": "deepseek-knowledge",
+  "name": "DeepSeek Knowledge",
+  "version": "1.0.0",
+  "minAppVersion": "1.1.0",
+  "description": "智能知识管理系统",
+  "author": "Your Name",
+  "authorUrl": "https://your.domain",
+  "fundingUrl": "https://deepseek.com",
+  "isDesktopOnly": true
+}

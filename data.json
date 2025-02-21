@@ -1,0 +1,6 @@
+{
+  "apiKey": "sk-056a763f4579442c9827eb08fcc39823",
+  "decayRate": 0.05,
+  "minSimilarity": 0.6,
+  "maxReviewInterval": 30
+}
