@@ -1,94 +1,95 @@
-# Obsidian Sample Plugin
+# Obsidian-MindForge
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+# Cognitive Weight Plugin README
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## 1. Overview
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+The Cognitive Weight Plugin is designed for Obsidian, aiming to enhance the user's understanding and management of their knowledge base. It calculates cognitive weights for files, tracks user interactions, and provides features for memory review and cognitive stage detection.
 
-## First time developing plugins?
+## 2. Features
 
-Quick starting guide for new plugin devs:
+1. **Cognitive Weight Calculation**
+   - Calculates the cognitive weight of each file based on factors like initial weight, decay coefficient, interaction count, and time decay. The weight formula is adjusted with daily and annual cycles, considering factors such as `lambda` (decay coefficient) and `beta` (interaction coefficient).
+   - For example, the time decay factor is calculated as `this.plugin.settings.alpha * data.initialWeight * Math.exp(-lambda * sqrtDays)`, where `sqrtDays` is the square root of the number of days elapsed since the last update.
+2. **Interaction Tracking**
+   - Tracks user interactions with files. When a file is created, modified, or its content is edited, the plugin records the interaction.
+   - It calculates interaction - related metrics such as engagement. Engagement is calculated based on the total interaction duration and the number of links in the file, with a sliding window Exponential Moving Average (EMA) applied for a more stable score.
+3. **Cognitive Stage Detection**
+   - Determines the cognitive stage of a user's knowledge in a file (e.g., '新手', '进阶', '专家') by analyzing scores related to complexity, engagement, and centrality.
+   - Complexity is calculated by processing the text content, removing Markdown and HTML elements, and using linguistic features like sentence and word counts, syllable counts, and the Flesch - Kincaid grade level. Centrality is calculated using a PageRank - like algorithm on the link graph of the Markdown files in the vault.
+4. **Memory Review System**
+   - Generates review questions for files based on their content. The questions are generated using the DeepSeek API. The plugin can detect due files for review based on memory strength, cognitive weight, and the time since the last review.
+   - The review session presents questions in a modal, allowing users to answer and get feedback on their responses. The memory strength of a file is updated based on the user's answer correctness.
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+## 3. Installation
 
-## Releasing new releases
+1. **Manual Installation**
+   - Download the plugin files from the [GitHub repository](https://github.com/yourusername/yourrepository).
+   - Navigate to your Obsidian vault's `.obsidian/plugins` folder.
+   - Create a new folder for the Cognitive Weight Plugin if it doesn't exist.
+   - Place the downloaded plugin files (`.js`, `.css`, etc.) into the new folder.
+2. **Using Obsidian Community Plugins (if available)**
+   - Open Obsidian.
+   - Go to `Settings` > `Community plugins`.
+   - Search for "Cognitive Weight Plugin" in the plugin list.
+   - Click `Install` and then `Enable` the plugin.
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+## 4. Configuration
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+1. **Open the Settings Tab**
+   - In Obsidian, go to `Settings` > `Cognitive Weight Plugin`.
+2. **Settings Options**
+   - **Initial Weight**: The starting weight for new files. Default is `0.5`.
+   - **Decay Coefficient (λ)**: Controls how quickly the cognitive weight decays over time. Default is `0.05`.
+   - **Interaction Coefficient (β)**: Determines the impact of user interactions on the cognitive weight. Default is `0.2`.
+   - **Daily Update Time**: The time at which the daily decay of cognitive weights is applied. Default is `02:00`.
+   - **Alpha Coefficient (α)**: Used in the time decay formula. Default is `1`.
+   - **DeepSeek API Key**: Required for generating review questions. Enter your valid DeepSeek API key here.
+   - **Temperature**: Affects the randomness of the generated questions. Ranges from `0` to `1`, with a default of `0.7`.
+   - **Max Tokens**: Limits the length of the generated responses from the DeepSeek API. Default is `1000`.
+   - **验证 API 密钥**: Click the `验证` button to check the validity of the entered DeepSeek API key. The plugin will attempt to make a test request to the API to verify it.
 
-## Adding your plugin to the community plugin list
+## 5. Usage
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+1. **File - related Interactions**
+   - When you create or modify a Markdown file in your Obsidian vault, the plugin automatically updates the interaction count and related metadata for that file.
+   - As you edit the content of a file, the plugin tracks the interaction duration and calculates engagement metrics.
+2. **Review Sessions**
+   - To start a review session, use the `开始记忆复习` command in the Obsidian command palette. The plugin will select due files based on memory strength and other criteria and generate review questions for them.
+   - During the review session, answer the questions presented in the modal. The plugin will provide feedback on whether your answer is correct or incorrect and update the memory strength of the corresponding file.
+3. **Cognitive Stage Detection**
+   - Use the `检测认知阶段` command in the Obsidian command palette. The plugin will analyze the current active file and calculate its complexity, engagement, and centrality scores to determine the cognitive stage. It will then display a notice with the detected stage and relevant scores.
 
-## How to use
+## 6. API Usage
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+1. **Question Generation API**
+   - The plugin uses the DeepSeek API to generate review questions. The API endpoint used is `https://api.deepseek.com/v1/chat/completions`.
+   - To generate a question, the plugin sends a POST request with the following parameters:
+     - `model`: set to `deepseek - chat`.
+     - `messages`: an array containing a user - role message with a prompt built from the file content. The prompt asks for a professional multiple - choice question with specific requirements.
+     - `temperature`: set according to the plugin's configuration.
+     - `max_tokens`: set according to the plugin's configuration.
+     - `top_p`: set to `0.95`.
+2. **API Key Validation**
+   - The plugin validates the DeepSeek API key by making a test request to the chat completions endpoint. It checks if the key is in the correct format (starts with `sk -`) and if the API returns a valid response.
 
-## Manually installing the plugin
+## 7. Development
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+1. **Prerequisites**
+   - Node.js and npm (Node Package Manager) installed on your development machine.
+2. **Clone the Repository**
+   - Run `git clone https://github.com/yourusername/yourrepository.git` in your terminal.
+3. **Install Dependencies**
+   - Navigate to the cloned repository folder in the terminal.
+   - Run `npm install` to install all the required dependencies.
+4. **Build and Run**
+   - Use the appropriate build commands (e.g., `npm run build`) to build the plugin.
+   - To test the plugin in Obsidian, you can use the Obsidian development server or manually copy the built files to your Obsidian vault's plugin folder.
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+## 8. License
 
-## Funding URL
+This plugin is released under the [Your License Name] license. See the `LICENSE` file in the repository for details.
 
-You can include funding URLs where people who use your plugin can financially support it.
+## 9. Support and Feedback
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
-```
-
-If you have multiple URLs, you can also do:
-
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
-
-## API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
+If you encounter any issues or have suggestions for improvement, please open an issue on the [GitHub repository](https://github.com/yourusername/yourrepository/issues). You can also reach out to the plugin developer at [your email address] for support.
