@@ -1,0 +1,43 @@
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/
+
+/* 题目容器 */
+.question-container {
+	margin: 1rem 0;
+	padding: 1rem;
+	border-radius: 8px;
+	background: var(--background-secondary);
+}
+
+/* 选项按钮 */
+.option-btn {
+	display: block;
+	width: 100%;
+	margin: 0.5rem 0;
+	padding: 0.8rem;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	text-align: left;
+	transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+	background: var(--interactive-hover);
+	transform: translateX(5px);
+}
+
+/* 控制按钮 */
+.modal-close-btn {
+	float: right;
+	margin-top: 1rem;
+	padding: 0.5rem 1rem;
+	background: var(--interactive-accent);
+	color: white;
+	border: none;
+}
