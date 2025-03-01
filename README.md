@@ -24,7 +24,7 @@ The Cognitive Weight Plugin is designed for Obsidian, aiming to enhance the user
 ## 3. Installation
 
 1. **Manual Installation**
-   - Download the plugin files from the [GitHub repository](https://github.com/yourusername/yourrepository).
+   - Download the plugin files from the [GitHub repository](https://github.com/oGYCo/Obsidian-MindForge).
    - Navigate to your Obsidian vault's `.obsidian/plugins` folder.
    - Create a new folder for the Cognitive Weight Plugin if it doesn't exist.
    - Place the downloaded plugin files (`.js`, `.css`, etc.) into the new folder.
@@ -78,7 +78,7 @@ The Cognitive Weight Plugin is designed for Obsidian, aiming to enhance the user
 1. **Prerequisites**
    - Node.js and npm (Node Package Manager) installed on your development machine.
 2. **Clone the Repository**
-   - Run `git clone https://github.com/yourusername/yourrepository.git` in your terminal.
+   - Run `git clone https://github.com/oGYCo/Obsidian-MindForge.git` in your terminal.
 3. **Install Dependencies**
    - Navigate to the cloned repository folder in the terminal.
    - Run `npm install` to install all the required dependencies.
@@ -92,4 +92,4 @@ This plugin is released under the [Your License Name] license. See the `LICENSE`
 
 ## 9. Support and Feedback
 
-If you encounter any issues or have suggestions for improvement, please open an issue on the [GitHub repository](https://github.com/yourusername/yourrepository/issues). You can also reach out to the plugin developer at [your email address] for support.
+If you encounter any issues or have suggestions for improvement, please open an issue on the [GitHub repository](https://github.com/oGYCo/Obsidian-MindForge/issues). You can also reach out to the plugin developer at [your email address] for support.
