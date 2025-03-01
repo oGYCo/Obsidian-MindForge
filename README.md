@@ -88,7 +88,7 @@ The Cognitive Weight Plugin is designed for Obsidian, aiming to enhance the user
 
 ## 8. License
 
-This plugin is released under the [Your License Name] license. See the `LICENSE` file in the repository for details.
+This plugin is released under the MIT license. See the `LICENSE` file in the repository for details.
 
 ## 9. Support and Feedback
 
